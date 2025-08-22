@@ -1,138 +1,212 @@
 return {
-    {
-      'nvim-tree/nvim-web-devicons',
-      lazy = true
-    },
-    {
-        'nvim-lualine/lualine.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-        config = function()
-            require("lualine").setup({
-                options = {
-                    icon_enabled = true,
-                    theme = 'ayu_mirage',
-                    -- theme = 'tokyonight',
-                    -- component_separators = { left = '', right = ''},
-                    -- section_separators = { left = '', right = ''},
-                    component_separators = { left = '', right = ''},
-                    section_separators = { left = '', right = ''},
-                    disabled_filetypes = {
-                        statusline = {},
-                        winbar = {},
-                    },
-                    ignore_focus = {},
-                    always_divide_middle = true,
-                    always_show_tabline = true,
-                    globalstatus = false,
-                    refresh = {
-                        statusline = 100,
-                        tabline = 100,
-                        winbar = 100,
-                    },
-                },
-                sections = {
-                    lualine_a = {'mode'},
-                    lualine_b = {'branch', 'diff', 'diagnostics'},
-                    lualine_c = {'filename'},
-                    lualine_x = {'encoding', 'fileformat', 'filetype'},
-                    lualine_y = {'progress'},
-                    lualine_z = {'location'}
-                },
-                inactive_sections = {
-                    lualine_a = {},
-                    lualine_b = {},
-                    lualine_c = {'filename'},
-                    lualine_x = {'location'},
-                    lualine_y = {},
-                    lualine_z = {}
-                },
-                tabline = {},
-                winbar = {},
-                inactive_winbar = {},
-                extensions = {}
-            })
-        end,
-    },
-    {
-      'nvim-tree/nvim-tree.lua',
-      version = "*",
-      lazy = false,
-      dependencies = {
-        'nvim-tree/nvim-web-devicons',
-      },
-      config = function()
-        vim.g.loaded_netrw = 1
-        vim.g.loaded_netrwPlugin = 1
+	{
+		"nvim-tree/nvim-web-devicons",
+		lazy = true,
+	},
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("lualine").setup({
+				options = {
+					icon_enabled = true,
+					theme = "ayu_mirage",
+					-- theme = 'tokyonight',
+					-- component_separators = { left = '', right = ''},
+					-- section_separators = { left = '', right = ''},
+					component_separators = { left = "", right = "" },
+					section_separators = { left = "", right = "" },
+					disabled_filetypes = {
+						statusline = {},
+						winbar = {},
+					},
+					ignore_focus = {},
+					always_divide_middle = true,
+					always_show_tabline = true,
+					globalstatus = false,
+					refresh = {
+						statusline = 100,
+						tabline = 100,
+						winbar = 100,
+					},
+				},
+				sections = {
+					lualine_a = { "mode" },
+					lualine_b = { "branch", "diff", "diagnostics" },
+					lualine_c = { "filename" },
+					lualine_x = { "encoding", "fileformat", "filetype" },
+					lualine_y = { "progress" },
+					lualine_z = { "location" },
+				},
+				inactive_sections = {
+					lualine_a = {},
+					lualine_b = {},
+					lualine_c = { "filename" },
+					lualine_x = { "location" },
+					lualine_y = {},
+					lualine_z = {},
+				},
+				tabline = {},
+				winbar = {},
+				inactive_winbar = {},
+				extensions = {},
+			})
+		end,
+	},
+	{
+		"nvim-tree/nvim-tree.lua",
+		version = "*",
+		lazy = false,
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+		},
+		config = function()
+			vim.g.loaded_netrw = 1
+			vim.g.loaded_netrwPlugin = 1
 
-        vim.opt.termguicolors = true
+			vim.opt.termguicolors = true
 
-        vim.api.nvim_set_keymap("n", "<Leader>e", ":NvimTreeToggle<cr>", {silent = true, noremap = true})
+			vim.api.nvim_set_keymap("n", "<Leader>e", ":NvimTreeToggle<cr>", { silent = true, noremap = true })
 
-        vim.api.nvim_create_autocmd("BufEnter", {
-          group = vim.api.nvim_create_augroup("NvimTreeClose", {clear = true}),
-          pattern = "NvimTree_*",
-          callback = function()
-            local layout = vim.api.nvim_call_function("winlayout", {})
-            if layout[1] == "leaf" and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree" and layout[3] == nil then vim.cmd("confirm quit") end
-          end
-})
+			vim.api.nvim_create_autocmd("BufEnter", {
+				group = vim.api.nvim_create_augroup("NvimTreeClose", { clear = true }),
+				pattern = "NvimTree_*",
+				callback = function()
+					local layout = vim.api.nvim_call_function("winlayout", {})
+					if
+						layout[1] == "leaf"
+						and vim.api.nvim_buf_get_option(vim.api.nvim_win_get_buf(layout[2]), "filetype") == "NvimTree"
+						and layout[3] == nil
+					then
+						vim.cmd("confirm quit")
+					end
+				end,
+			})
 
-        require('nvim-tree').setup {
-          sort = {
-            sorter = "case_sensitive",
-          },
-          view = {
-            width = 30,
-          },
-          renderer = {
-            group_empty = true,
-          },
-          filters = {
-            dotfiles = true,
-          },
-        }
-      end,
-    },
-    {
-      'folke/which-key.nvim',
-      event = "VeryLazy",
-      opts = {
-        preset = "helix",
-      },
-      keys = {
-        {
-          "<leader>?",
-          function()
-            require("which-key").show({ global = false })
-          end,
-          desc = "Buffer Local Keymaps (which-key)"
-        },
-      },
-    },
-  {
-    'nvim-telescope/telescope.nvim',
-    tag = '0.1.8',
-    dependencies = {
-      {'nvim-lua/plenary.nvim'},
-    },
-    config = function()
-local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-    end,
-  },
-  {
-    "jiaoshijie/undotree",
-  dependencies = "nvim-lua/plenary.nvim",
-  config = true,
-  keys = { -- load the plugin only when using it's keybinding:
-    { "<leader>u", "<cmd>lua require('undotree').toggle()<cr>", desc = "Open undo tree" },
-  },
-  },
-  {
-     'akinsho/toggleterm.nvim',
-     config = true
-  },
+			require("nvim-tree").setup({
+				sort = {
+					sorter = "case_sensitive",
+				},
+				view = {
+					width = 30,
+				},
+				renderer = {
+					group_empty = true,
+				},
+				filters = {
+					dotfiles = false,
+				},
+			})
+		end,
+	},
+	{
+		"folke/which-key.nvim",
+		event = "VeryLazy",
+		opts = {
+			preset = "helix",
+		},
+		keys = {
+			{
+				"<leader>?",
+				function()
+					require("which-key").show({ global = false })
+				end,
+				desc = "Buffer Local Keymaps (which-key)",
+			},
+		},
+	},
+	{
+		"nvim-telescope/telescope.nvim",
+		tag = "0.1.8",
+		dependencies = {
+			{ "nvim-lua/plenary.nvim" },
+		},
+		config = function()
+			local builtin = require("telescope.builtin")
+			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Telescope find files" })
+			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live grep" })
+			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
+			vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
+			-- vim.keymap.set("n", "<leader>fd", builtin.lsp_definitions, { desc = "Telescope lsp definitions" })
+		end,
+	},
+	{
+		"jiaoshijie/undotree",
+		dependencies = "nvim-lua/plenary.nvim",
+		config = true,
+		keys = { -- load the plugin only when using it's keybinding:
+			{ "<leader>u", "<cmd>lua require('undotree').toggle()<cr>", desc = "Open undo tree" },
+		},
+	},
+	{
+		"akinsho/toggleterm.nvim",
+		config = true,
+	},
+	{
+		"romgrk/barbar.nvim",
+		dependencies = {
+			"lewis6991/gitsigns.nvim",
+			"nvim-tree/nvim-web-devicons",
+		},
+
+		init = function()
+			vim.g.barbar_auto_setup = false
+		end,
+		lazy = false,
+		opts = {},
+		keys = {
+			{ "<leader>bh", "<cmd>BufferPrevious<cr>", desc = "Previous buffer" },
+			{ "<leader>bl", "<cmd>BufferNext<cr>", desc = "Next buffer" },
+			{ "<leader>b1", "<cmd>BufferGoto 1<cr>", desc = "Go to the 1st buffer" },
+			{ "<leader>b2", "<cmd>BufferGoto 2<cr>", desc = "Go to the 2nd buffer" },
+			{ "<leader>b3", "<cmd>BufferGoto 3<cr>", desc = "Go to the 3rd buffer" },
+			{ "<leader>b4", "<cmd>BufferGoto 4<cr>", desc = "Go to the 4th buffer" },
+			{ "<leader>b5", "<cmd>BufferGoto 5<cr>", desc = "Go to the 5th buffer" },
+			{ "<leader>b6", "<cmd>BufferGoto 6<cr>", desc = "Go to the 6th buffer" },
+			{ "<leader>b7", "<cmd>BufferGoto 7<cr>", desc = "Go to the 7th buffer" },
+			{ "<leader>b8", "<cmd>BufferGoto 8<cr>", desc = "Go to the 8th buffer" },
+			{ "<leader>b9", "<cmd>BufferGoto 9<cr>", desc = "Go to the 9th buffer" },
+			{ "<leader>b0", "<cmd>BufferLast<cr>", desc = "Go to the last buffer" },
+			{ "<leader>bp", "<cmd>BufferPin<cr>", desc = "Pin/unpin current buffer" },
+			{ "<leader>bw", "<cmd>BufferClose<cr>", desc = "Close current buffer" },
+			{ "<leader>br", "<cmd>BufferRestore<cr>", desc = "Restore previous closed buffer" },
+		},
+	},
+	{
+		"folke/trouble.nvim",
+		opts = {}, -- for default options, refer to the configuration section for custom setup.
+		cmd = "Trouble",
+		keys = {
+			{
+				"<leader>xx",
+				"<cmd>Trouble diagnostics toggle<cr>",
+				desc = "Diagnostics (Trouble)",
+			},
+			{
+				"<leader>xX",
+				"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+				desc = "Buffer Diagnostics (Trouble)",
+			},
+			{
+				"<leader>cs",
+				"<cmd>Trouble symbols toggle focus=false<cr>",
+				desc = "Symbols (Trouble)",
+			},
+			{
+				"<leader>cl",
+				"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+				desc = "LSP Definitions / references / ... (Trouble)",
+			},
+			{
+				"<leader>xL",
+				"<cmd>Trouble loclist toggle<cr>",
+				desc = "Location List (Trouble)",
+			},
+			{
+				"<leader>xQ",
+				"<cmd>Trouble qflist toggle<cr>",
+				desc = "Quickfix List (Trouble)",
+			},
+		},
+	},
 }

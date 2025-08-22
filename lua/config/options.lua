@@ -16,6 +16,5 @@ vim.o.smartcase = true
 vim.o.termguicolors = true
 vim.o.signcolumn = "yes"
 
-vim.cmd('syntax enable')
-vim.cmd('filetype plugin indent on')
-
+vim.cmd("syntax enable")
+vim.cmd("filetype plugin indent on")
