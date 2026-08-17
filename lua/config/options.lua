@@ -5,3 +5,7 @@
 if LazyVim.is_win() then
   LazyVim.terminal.setup("pwsh")
 end
+
+if vim.g.neovide then
+  vim.o.guifont = "JetBrainsMono Nerd Font:h14"
+end
